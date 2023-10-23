@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HERE Map with Custom Marker</title>
+
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+
+    <!-- Add a reference to your custom marker image -->
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        /* Add your custom CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #results {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+        }
+
+        #sumResult {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div style="width: 100vw; height: 53vh;" id="mapContainer"></div>
+
+    <!-- Add a form element to get the user's input -->
+    <form id="geocodeForm">
+        <input type="text" id="address" placeholder="Enter an address" required>
+        <button type="submit">Submit</button>
+    </form>
+    <form id="bhkForm">
+        <input type="text" id="bhk" placeholder="Enter BHK" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Form for Square Foot -->
+    <form id="sqftForm">
+        <input type="text" id="sqft" placeholder="Enter Square Foot" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Form for No. Of Bathroom -->
+    <form id="bathroomForm">
+        <input type="text" id="bathroom" placeholder="Enter No. Of Bathroom" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Display the geocoded results here -->
+    <div id="results"></div>
+    <div id="sumResult"></div>
+    <script>
+        let locationData = {}
+        // Initialize variables to store user input as integers
+        let size = 0;
+        let total_sqft = 0;
+        let bath = 0;
+
+        // Event listener for the BHK form
+        document.getElementById('bhkForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get the user-entered value and convert it to an integer
+            size = parseInt(document.getElementById('bhk').value);
+
+            // Do something with the 'size' variable if needed
+
+            // Clear the input field
+            document.getElementById('bhk').value = "";
+        });
+
+        // Event listener for the Square Foot form
+        document.getElementById('sqftForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get the user-entered value and convert it to an integer
+            total_sqft = parseInt(document.getElementById('sqft').value);
+
+            // Do something with the 'total_sqft' variable if needed
+
+            // Clear the input field
+            document.getElementById('sqft').value = "";
+        });
+
+        // Event listener for the No. Of Bathroom form
+        document.getElementById('bathroomForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get the user-entered value and convert it to an integer
+            bath = parseInt(document.getElementById('bathroom').value);
+
+            // Do something with the 'bath' variable if needed
+
+            // Clear the input field
+            document.getElementById('bathroom').value = "";
+            var sum = 10.4920773*bath + 0.09100123*total_sqft - 5.74002314*size;
+            document.getElementById('sumResult').textContent = "Through our research, we feel that the fair price of your Apartment is in the range : Rs." + sum/100 + " crore"+ "\n" + "";
+        });
+        // let locationData = {};
+        document.getElementById('geocodeForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get the user-entered address
+            const addressInput = document.getElementById('address');
+            const address = addressInput.value;
+
+            // Make an API request to HERE Geocoding API
+            const api_url = "https://geocode.search.hereapi.com/v1/geocode";
+            const api_key = "S1dh4RhKiXOcA1eLZPDlNgfzZI0kD28I1UvHK9v3QqY"; // Replace with your actual API key
+
+            const params = {
+                apiKey: api_key,
+                q: address
+            };
+
+            fetch(api_url + '?' + new URLSearchParams(params))
+                .then(response => response.json())
+                .then(data => {
+                    // Check if the request was successful
+                    if (data.items && data.items.length > 0) {
+                        // Extract and display the geocoded results
+                        const location = data.items[0].position;
+                        document.getElementById('results').innerHTML = `lat: ${location.lat}, lng: ${location.lng}`;
+
+                        // Update the global locationData object
+                        locationData = {
+                            latitude: location.lat,
+                            longitude: location.lng
+                        };
+                        console.log(locationData);
+                    } else {
+                        document.getElementById('results').innerHTML = 'Address not found.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('results').innerHTML = 'An error occurred.';
+                });
+        });
+
+
+        var platform = new H.service.Platform({
+            apikey: 'Cy6ryvswIVuf4BxcwUkU3Z1YunrgGcGvuzXXN3PTvi4'
+        });
+        var defaultLayers = platform.createDefaultLayers();
+
+        var map = new H.Map(document.getElementById('mapContainer'),
+            defaultLayers.vector.normal.map,
+            {
+                center: { lat: 12.9716, lng: 77.5946 }, // Centered on Bangalore
+                zoom: 12.5, // Zoom level adjusted for maximum area
+                pixelRatio: window.devicePixelRatio || 1
+            }
+        );
+
+        // This adds a resize listener to make sure that the map occupies the whole container
+        window.addEventListener('resize', () => map.getViewPort().resize());
+
+        // Step 3: Make the map interactive
+        // MapEvents enables the event system
+        // Behavior implements default interactions for pan/zoom (also on mobile touch environments)
+        var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+        // Create the default UI components
+        var ui = H.ui.UI.createDefault(map, defaultLayers);
+        // var LocationOfMarker = { lat: 12.8873, lng: 77.5781 };
+        // Get locationData from localStorage
+        // var locationData = JSON.parse(localStorage.getItem("locationData"));
+        // console.log("HI");
+            // Create a marker icon from an image URL:
+        var icon = new H.map.Icon("images/Drawing-Pin.png", { size: { w: 56, h: 56 } });
+        var marker = new H.map.Marker({ lat: 12.88078, lng: 77.54402 }, { icon: icon });
+        map.addObject(marker);
+        map.setCenter({ lat: 12.88078, lng: 77.54402 })
+
+        //Zooming so that the marker can be clearly visible
+        
+    </script>
+</body>
+
+</html>
+
+
