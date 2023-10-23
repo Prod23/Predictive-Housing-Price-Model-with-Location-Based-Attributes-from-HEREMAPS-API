@@ -2,7 +2,7 @@
 
 ### Goal: To predict the Real Estate Prices in Bengaluru, India based on Location-based attributes
 ### Approach: After researching various property broker sites and talking to experts involved in the real estate industry, we came up with a list of factors on which the price of a property depends:
--Location
+- Location
 *Sq. Ft
 *BHK
 *No. of Hospitals Nearby
