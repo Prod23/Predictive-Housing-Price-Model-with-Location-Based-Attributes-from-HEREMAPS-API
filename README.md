@@ -1,6 +1,9 @@
-# Predictive-Housing-Price-Model-with-Location-Based-Attributes-from-HEREMAPS-API
+# Real Estate Price Predictor - Bangalore
 
-## Goal: 
+## Overview
+AI-powered real estate price prediction system for Bangalore properties using location-based attributes and machine learning. Built with Flask backend, HERE Maps integration, and modern web interface.
+
+## Goal
 To predict the Real Estate Prices in Bengaluru, India based on Location-based attributes, in a 24 Hour Hackathon
 ## Approach: 
 After researching various property broker sites and talking to experts involved in the real estate industry, we came up with a list of factors on which the price of a property depends:
@@ -45,7 +48,105 @@ After researching various property broker sites and talking to experts involved 
 
 ![WhatsApp Image 2023-10-23 at 16 36 00_68d5d153](https://github.com/Prod23/Predictive-Housing-Price-Model-with-Location-Based-Attributes-from-HEREMAPS-API/assets/86822712/6ab6b604-e8dc-4609-af82-b45dadd3cd8c)
 
+## Backend/API
+
+### Architecture
+- **Flask Backend**: REST API with secure HERE Maps integration
+- **ML Pipeline**: Scikit-learn Linear Regression model with feature engineering
+- **Database**: CSV-based training data with location geocoding
+
+### API Endpoints
+- `POST /api/geocode`: Address to coordinates conversion
+- `POST /api/predict`: Price prediction based on property features
+- `GET /health`: System health check
+
+## Setup and Installation
+
+### Prerequisites
+- Python 3.8+
+- HERE Maps API key (free tier available)
+
+### Quick Start
+
+1. **Clone and setup environment**
+```bash
+git clone <repository-url>
+cd Predictive-Housing-Price-Model-with-Location-Based-Attributes-from-HEREMAPS-API
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+2. **Configure environment**
+```bash
+cp .env.example .env
+# Edit .env and add your HERE_API_KEY
+```
+
+3. **Train the model**
+```bash
+python ml/train_model.py --seed 42
+```
+
+4. **Run the application**
+```bash
+python app.py
+# Or using Flask CLI:
+FLASK_APP=app.py flask run
+```
+
+5. **Access the application**
+Open http://localhost:5000 in your browser
+
+### Production Deployment
+```bash
+gunicorn -w 4 -b 0.0.0.0:5000 app:app
+```
+
+## Usage
+
+1. Enter a property address in Bangalore
+2. Specify BHK, square footage, and number of bathrooms
+3. Click "Calculate Price" to get AI-powered price estimate
+4. View results on interactive map with location marker
+
+## Testing
+
+Run the test suite:
+```bash
+pytest tests/ -v
+```
+
+## Project Structure
+```
+├── app.py                 # Flask backend
+├── ml/
+│   ├── train_model.py     # Model training script
+│   └── inference.py       # Prediction module
+├── templates/
+│   └── index.html         # Frontend template
+├── static/
+│   ├── css/styles.css     # Styling
+│   ├── js/main.js         # Frontend logic
+│   └── img/               # Assets
+├── tests/                 # Test suite
+├── Data/household.csv     # Training data
+└── artifacts/             # Generated model files
+```
+
+## Verification Checklist
+
+After setup, verify:
+- [ ] Model training completes without errors
+- [ ] Flask app starts on http://localhost:5000
+- [ ] Frontend loads with map display
+- [ ] Address geocoding works (updates map marker)
+- [ ] Price prediction returns numerical result
+- [ ] Tests pass with `pytest -q`
+
 ## Future Scope:
 - Integrating financial variables such as prevailing interest rates, inflation, employment data to predict whether the pricing is fair or not
 - Using Time Series prediction models of house prices to predict whether the investment in the real-estate property is worth it or not
+- Enhanced feature engineering with real-time amenity data from HERE Browse API
+- Integration with property listing APIs for live market data
 

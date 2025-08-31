@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Price Predictor - Bangalore</title>
+
+    <!-- HERE Maps API -->
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <!-- Inject HERE Maps JS key for frontend usage -->
+    <script>
+        window.HERE_MAPS_JS_KEY = "{{ here_maps_js_key or '' }}";
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🏠 Real Estate Price Predictor</h1>
+            <p>Get AI-powered price estimates for properties in Bangalore</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Map Container -->
+            <div class="map-section">
+                <div id="mapContainer"></div>
+            </div>
+
+            <!-- Input Form -->
+            <div class="form-section">
+                <form id="priceForm" class="price-form">
+                    <div class="form-group">
+                        <label for="address">📍 Property Address</label>
+                        <input type="text" id="address" placeholder="Enter property address in Bangalore" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bhk">🏠 BHK</label>
+                            <input type="number" id="bhk" min="1" max="10" placeholder="2" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sqft">📐 Square Feet</label>
+                            <input type="number" id="sqft" min="100" max="10000" placeholder="1200" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bath">🚿 Bathrooms</label>
+                            <input type="number" id="bath" min="1" max="10" placeholder="2" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="calculate-btn">Calculate Price</button>
+                </form>
+
+                <!-- Results Display -->
+                <div id="results" class="results-section" style="display: none;">
+                    <h3>📊 Price Estimation</h3>
+                    <div id="priceResult" class="price-result"></div>
+                    <div id="locationResult" class="location-result"></div>
+                </div>
+
+                <!-- Loading Indicator -->
+                <div id="loading" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Calculating price estimate...</p>
+                </div>
+
+                <!-- Error Display -->
+                <div id="error" class="error-section" style="display: none;">
+                    <p id="errorMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
