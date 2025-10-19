@@ -44,9 +44,9 @@ After researching various property broker sites and talking to experts involved 
 
 ## Web-app images:
 
-![WhatsApp Image 2023-10-23 at 16 35 59_88c71a5d](https://github.com/Prod23/Predictive-Housing-Price-Model-with-Location-Based-Attributes-from-HEREMAPS-API/assets/86822712/a17e93b3-c9a7-4d3e-bd63-f232a000c981)
+![WhatsApp Image 2023-10-23 at 16 35 59_88c71a5d](https://github.com/Prod23/Predictive-Housing-Price-Model-with-Location-Based-Attributes-from-HEREMAPS-API/assets/86822712/a17e93b3-c9a7-4d3e-bd63-f232a000c98112)
 
-![WhatsApp Image 2023-10-23 at 16 36 00_68d5d153](https://github.com/Prod23/Predictive-Housing-Price-Model-with-Location-Based-Attributes-from-HEREMAPS-API/assets/86822712/6ab6b604-e8dc-4609-af82-b45dadd3cd8c)
+![WhatsApp Image 2023-10-23 at 16 36 00_68d5d153](https://github.com/Prod23/Predictive-Housing-Price-Model-with-Location-Based-Attributes-from-HEREMAPS-API/assets/86822712/6ab6b604-e8dc-4609-af82-b45dadd3cd8c32)
 
 ## Backend/API
 
